@@ -53,6 +53,28 @@ const Weather = styled(({className}) => {
   }
 
   const handleChangeSearchInput = (event:any)=> setSearchInput(() => event.target.value);
+  const handleOnClickSearchInput = (city:cityProps) => {
+    setCurrentCity({
+      name:city.name,
+      country: city.country,
+      longitude:city.longitude,
+      latitude:city.latitude
+    });
+    setSearchInput('');
+  };
+  const handleKeyDownSearchInput = (event:any,city:cityProps) =>{
+    if(event.key === "Enter")
+    {
+      if(!city) return
+      setCurrentCity({
+        name:city.name,
+        country: city.country,
+        longitude:city.longitude,
+        latitude:city.latitude
+      });
+      setSearchInput('');
+    } 
+  }
 
   const isArrayResponse = (response: any): response is Array<cityProps> => {
     return Array.isArray(response);
@@ -88,7 +110,6 @@ const Weather = styled(({className}) => {
       try{
         const response = await getWeather();
         const {current_weather} = response;
-        console.log({current_weather});
         setCurrentWeather(() => {
           return {
             temperature: current_weather.temperature,
@@ -107,21 +128,31 @@ const Weather = styled(({className}) => {
   const {temperature,winddirection,windspeed,weatherCode} = currentWeather;
   return (
     <div className={className}>
-      <div className='container '>
+      <div className='container content-wrapper'>
         <div className='title-wrapper'>
           <div className='search-wrapper'>
-            <p className='control has-icons-right'>
-              <input type='text' className='input' value={searchInput} onChange={handleChangeSearchInput}/>
+            <div className='control has-icons-right'>
+              <input 
+                type='text' 
+                className='input' 
+                value={searchInput} 
+                onChange={handleChangeSearchInput}
+                onKeyDown={(event) => {
+                  handleKeyDownSearchInput(event,searchingCities[0])
+                }}
+              />
               <span className='icon is-right'>
                 <FontAwesomeIcon icon={faMagnifyingGlass} aria-hidden='true'/>
               </span>
               <ul className='search-city-results'>
                 {searchingCities.map((city)=>{
                   const {name,country,longitude,latitude} = city;
-                  return <li key={`${longitude}${latitude}`}>{`${name} : ${country}`}</li>
+                  return <li key={`${longitude}${latitude}`} onClick={() => handleOnClickSearchInput(city)}>
+                    {`${name} : ${country}`}
+                    </li>
                 })}
               </ul>
-            </p>
+            </div>
           </div>
           <div className='title-container'>
             <h1 className='city-name title is-right'>{name}</h1>
@@ -137,7 +168,10 @@ const Weather = styled(({className}) => {
             </div>
           </div>
           <div className='container columns is-mobile weather-currently-wind-wrapper'>
-
+            <WindCompas winddirection={winddirection}/>
+            <div className='column'>
+              <h1 className='title'>{windspeed} km/h</h1>
+            </div>
           </div>
         </div>
       </div>
@@ -150,57 +184,162 @@ const Weather = styled(({className}) => {
   color:white;
 
   .container{
-    background-color:blue;
+    background-color:hsla(216, 63%, 42%, 1);
+    width:600px;
   }
+
+  .content-wrapper{
+    border-radius:1em 1em 0 0;
+  }
+
   .title-container{
-    text-align:left;
+    text-align:right;
     margin-left:1em;
     padding-top:0.75em;
     padding-bottom:1.25em;
+    width:100%;
+    
+  }
+  .title-wrapper{
+    display:flex;
   }
   .search-wrapper {
     padding-top:0.75em;
     margin-left:0.75em;
     margin-right:0.75em;
     width:300px;
+    min-width:300px;
   }
 
   .title{
     color:white;
+    margin-right:1em;
   }
 
   .weather-wrapper{
-    padding-top: 1em;
-    padding-bottom:1em;
-    background-color: lightblue;
+    padding: 2em;
+    background-color: hsla(197, 71%, 73%, 1);
   }
 
   .weather-currently-info-wrapper{
+
+    width:auto;
     position:relative;
     text-align:left;
     background-color:transparent;
-    border: 3px solid white;
+    border: 2px solid  hsla(0, 0%, 100%, 0.2);
   }
 
   .weather-currently-text{
     position:absolute;
     top:-15px;
+    left:15px;
+    z-index:99;
   }
 
   .icon-weather-status{
     margin:0.25em;
-    color:yellow;
+    color:hsla(52, 100%, 60%, 1);
     font-size:4em;
+  }
+
+  .search-city-results{
+    position:absolute;
+    text-align:left;
+    top:50px;
+    list-style-type: none;
+    padding-left:0.3em;
+    width:100%;
+    max-height: 150px;
+    color:black;
+    background-color: #fff;
+    overflow:hidden;
+    overflow-y:auto;
+    z-index:999;
+    ::-webkit-scrollbar{
+      display:none;
+    }
+  }
+
+  .search-city-results li{
+    cursor:pointer;
+  }
+  .search-city-results li:hover{
+    background-color: blue;
+  }
+
+  .weather-currently-wind-wrapper{
+    margin-top:10px;
+    position:relative;
+    width:auto;
+    background-color: rgba(59, 61, 231, 0.09);
   }
 
   @media screen and (max-width:600px){
     .container{
       margin: 0 1em 0 1em;
+      width:auto;
     } 
     .search-wrapper{
       width: auto;
+      min-width:200px;
+    }
+
+    .weather-wrapper{
+      padding:1em 0 1em 0;
+    }
+    .title-wrapper{
+      display:block;
+    }
+    .title-container{
+      text-align:left;
     }
   }
+`
+
+const WindCompas = styled(({className,winddirection}) => {
+  return (
+          <div className={`${className} column`}>
+            <div className='wind-direction'>
+              <p className="sr-only">{winddirection}</p>
+              <span className='windArrow'></span>
+            </div>
+          </div>
+  )
+})`
+width:auto;
+
+.wind-direction{
+  --size: 6rem;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background-color: rgba(59, 61, 231, 0.5);
+  display: grid;
+  place-items: center;
+}
+
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.windArrow{
+  --size:1rem;
+  height: calc(var(--size)*3);
+  width: var(--size);
+  background-color:  white;
+  clip-path: polygon(50% 0, 0% 100%, 100% 100%);
+  transform: translateY(-50%)
+  rotate(${props => props.winddirection +"deg" || "0deg"});
+  transform-origin: bottom center;
+  transition: transform 500ms ease;
+}
 `
 
 export default Weather
