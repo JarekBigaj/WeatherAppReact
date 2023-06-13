@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faSun } from '@fortawesome/free-solid-svg-icons'
+import weather_code_file from './weather-code.json'
 
 const URL_WEATHER = 'https://api.open-meteo.com/v1/forecast?';
 const URL_PARAMS_CURRENT_WEATHER= 'current_weather=true';
 const URL_API_GEOCODING = 'https://geocoding-api.open-meteo.com/v1/search?name=';
+const {weather_code_list} = weather_code_file;
 
 type weatherProps = {
   temperature : number;
@@ -126,6 +128,12 @@ const Weather = styled(({className}) => {
 
   const {name} = currentCity;
   const {temperature,winddirection,windspeed,weatherCode} = currentWeather;
+  const currentWeatherDescription = Object.entries(weather_code_list)
+                                          .find(([key,value]) => {
+                                            if(Number(key) === weatherCode)
+                                              return value
+                                          });
+  const [code,description] = currentWeatherDescription?.length? currentWeatherDescription : [0,''];
   return (
     <div className={className}>
       <div className='container content-wrapper'>
@@ -164,7 +172,7 @@ const Weather = styled(({className}) => {
             <i className='column'><FontAwesomeIcon icon={faSun} className='icon-weather-status'/></i>
             <div className='currently-weather-status-wrapper column'>
               <h1 className='title'>{temperature}℃</h1>
-              <span>{weatherCode}</span>
+              <span>{description}</span>
             </div>
           </div>
           <div className='container columns is-mobile weather-currently-wind-wrapper'>
