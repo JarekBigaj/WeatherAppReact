@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faSun } from '@fortawesome/free-solid-svg-icons'
 import weather_code_file from './weather-code.json'
+import { useNavigate } from 'react-router-dom'
 
 const URL_WEATHER = 'https://api.open-meteo.com/v1/forecast?';
 const URL_PARAMS_CURRENT_WEATHER= 'current_weather=true';
@@ -30,6 +31,8 @@ const defaultCity:cityProps = {
   latitude:52.23
 } 
 
+
+
 const Weather = styled(({className}) => {
   const [currentCity, setCurrentCity] = useState<cityProps>(defaultCity);
   const [searchInput,setSearchInput] = useState<string>('');
@@ -40,6 +43,7 @@ const Weather = styled(({className}) => {
     windspeed: 0,
     weatherCode: 0
   });
+  const navigate = useNavigate();
 
   const getWeather = async () =>{
     const {latitude,longitude} = currentCity;
@@ -55,6 +59,10 @@ const Weather = styled(({className}) => {
   }
 
   const handleChangeSearchInput = (event:any)=> setSearchInput(() => event.target.value);
+
+  const handleNevigateWeatherForSeveralDays = (days:number,longitude:number,latitude:number,city:string) => 
+    navigate(`/detailedweather?days=${days}&longitude=${longitude}&latitude=${latitude}&city=${city}`);
+
   const handleOnClickSearchInput = (city:cityProps) => {
     setCurrentCity({
       name:city.name,
@@ -126,7 +134,7 @@ const Weather = styled(({className}) => {
     })()
   }, [currentCity])
 
-  const {name} = currentCity;
+  const {name,longitude,latitude} = currentCity;
   const {temperature,winddirection,windspeed,weatherCode} = currentWeather;
   const currentWeatherDescription = Object.entries(weather_code_list)
                                           .find(([key,value]) => {
@@ -134,6 +142,7 @@ const Weather = styled(({className}) => {
                                               return value
                                           });
   const [code,description] = currentWeatherDescription?.length? currentWeatherDescription : [0,''];
+  
   return (
     <div className={className}>
       <div className='container content-wrapper'>
@@ -180,6 +189,22 @@ const Weather = styled(({className}) => {
             <div className='column'>
               <h1 className='title'>{windspeed} km/h</h1>
             </div>
+          </div>
+        </div>
+        <div className='container buttons-content-wrapper'>
+          <div className='buttons buttons-wrapper'>
+            <button 
+              className='button is-info is-medium is-responsive'
+              onClick={() => handleNevigateWeatherForSeveralDays(3,longitude,latitude,name)}
+            >
+              Weather for 3 days
+            </button>
+            <button 
+              className='button is-info is-medium is-responsive'
+              onClick={() => handleNevigateWeatherForSeveralDays(7,longitude,latitude,name)}
+            >
+              Weather for 7 days
+            </button>
           </div>
         </div>
       </div>
@@ -283,6 +308,13 @@ const Weather = styled(({className}) => {
     background-color: rgba(59, 61, 231, 0.09);
   }
 
+  .buttons-wrapper{
+    display:flex;
+    justify-content:center;
+    gap: 2em;
+    padding:1em;
+  }
+
   @media screen and (max-width:600px){
     .container{
       margin: 0 1em 0 1em;
@@ -302,6 +334,13 @@ const Weather = styled(({className}) => {
     .title-container{
       text-align:left;
     }
+    .buttons-wrapper{
+      display:flex;
+      justify-content:center;
+      gap: 1em;
+      padding:1em;
+    }
+  
   }
 `
 
