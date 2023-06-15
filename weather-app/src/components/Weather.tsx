@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass, faSun } from '@fortawesome/free-solid-svg-icons'
+import { faCloudBolt, faCloudRain, faCloudSun, faMagnifyingGlass, faSnowflake, faSun} from '@fortawesome/free-solid-svg-icons'
 import weather_code_file from './weather-code.json'
 import { useNavigate } from 'react-router-dom'
 
@@ -10,14 +10,14 @@ const URL_PARAMS_CURRENT_WEATHER= 'current_weather=true';
 const URL_API_GEOCODING = 'https://geocoding-api.open-meteo.com/v1/search?name=';
 const {weather_code_list} = weather_code_file;
 
-type weatherProps = {
+interface weatherProps {
   temperature : number;
   winddirection: number;
   windspeed:number;
   weatherCode: number;
 }
 
-type cityProps = {
+interface cityProps {
   name:string;
   country:string;
   longitude: number;
@@ -142,7 +142,23 @@ const Weather = styled(({className}) => {
                                               return value
                                           });
   const [code,description] = currentWeatherDescription?.length? currentWeatherDescription : [0,''];
-  
+  const weahterIcon = (code:string) =>{
+    if(code === '0') return faSun;
+    if(code === '1' || code === '2' || code === '3') return faCloudSun;
+
+    if(code === '51' || code === '53' || code === '55') return faCloudRain;
+    if(code === '95' || code === '96' || code === '99') return faCloudBolt;
+
+    if(code === '56' || code === '57') return faSnowflake;
+    if(code === '66' || code === '67') return faSnowflake;
+    if(code === '85' || code === '86') return faSnowflake;
+    if(code === '71' || code === '73' || code === '75' || code =='77') return faSnowflake;
+
+    if(code === '61'|| code === '63' || code === '65') return faCloudRain;
+    if(code === '80'|| code === '81' || code === '82') return faCloudRain;
+    
+    return faSun;
+  }
   return (
     <div className={className}>
       <div className='container content-wrapper'>
@@ -178,7 +194,7 @@ const Weather = styled(({className}) => {
         <div className='weather-wrapper'>
           <div className='container columns is-mobile weather-currently-info-wrapper'>
             <span className='weather-currently-text'>Weather now</span>
-            <i className='column'><FontAwesomeIcon icon={faSun} className='icon-weather-status'/></i>
+            <i className='column'><FontAwesomeIcon icon={weahterIcon(code.toString())} className='icon-weather-status'/></i>
             <div className='currently-weather-status-wrapper column'>
               <h1 className='title'>{temperature}℃</h1>
               <span>{description}</span>
@@ -272,7 +288,7 @@ const Weather = styled(({className}) => {
 
   .icon-weather-status{
     margin:0.25em;
-    color:hsla(52, 100%, 60%, 1);
+    // color:hsla(52, 100%, 60%, 1);
     font-size:4em;
   }
 
