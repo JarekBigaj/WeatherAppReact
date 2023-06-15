@@ -5,12 +5,10 @@ import DetailedWeather from './components/DetailedWeather';
 
 function App() {
   return (
-    <div className="App">
       <Routes>
         <Route path="/" element={<Weather/>}/>
         <Route path="/detailedweather" element={<DetailedWeather/>}/>
       </Routes>
-    </div>
   );
 }
 

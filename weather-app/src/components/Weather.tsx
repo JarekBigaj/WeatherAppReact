@@ -251,10 +251,10 @@ const Weather = styled(({className}) => {
   position:relative;
   width:100%;
   margin-top:5em;
-  color:white;
+  color: var(--color-text);
 
   .container{
-    background-color:hsla(216, 63%, 42%, 1);
+    background-color:var(--color-container);
     width:600px;
   }
 
@@ -282,13 +282,13 @@ const Weather = styled(({className}) => {
   }
 
   .title{
-    color:white;
+    color:var(--color-text);
     margin-right:1em;
   }
 
   .weather-wrapper{
     padding: 2em;
-    background-color: hsla(197, 71%, 73%, 1);
+    background-color: var(--color-component);
   }
 
   .weather-currently-info-wrapper{
@@ -309,7 +309,6 @@ const Weather = styled(({className}) => {
 
   .icon-weather-status{
     margin:0.25em;
-    // color:hsla(52, 100%, 60%, 1);
     font-size:4em;
   }
 
@@ -335,7 +334,7 @@ const Weather = styled(({className}) => {
     cursor:pointer;
   }
   .search-city-results li:hover{
-    background-color: blue;
+    background-color: whitesmoke;
   }
 
   .weather-currently-wind-wrapper{
@@ -350,6 +349,12 @@ const Weather = styled(({className}) => {
     justify-content:center;
     gap: 2em;
     padding:1em;
+  }
+  .button{
+    background-color:var(--color-element);
+  }
+  .button:hover{
+    background-color:hsl(155, 28%, 48%);
   }
 
   @media screen and (max-width:600px){
@@ -398,7 +403,7 @@ width:auto;
   width: var(--size);
   height: var(--size);
   border-radius: 50%;
-  background-color: rgba(59, 61, 231, 0.5);
+  background-color: var(--color-element);
   display: grid;
   place-items: center;
 }
