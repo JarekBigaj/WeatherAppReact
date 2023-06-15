@@ -4,6 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloudBolt, faCloudRain, faCloudSun, faMagnifyingGlass, faSnowflake, faSun} from '@fortawesome/free-solid-svg-icons'
 import weather_code_file from './weather-code.json'
 import { useNavigate } from 'react-router-dom'
+import NotificationAboutCity from './helper/CustomNotification'
+import CustomNotificationComponent from './helper/CustomNotification'
+import CustomNotification from './helper/CustomNotification'
 
 const URL_WEATHER = 'https://api.open-meteo.com/v1/forecast?';
 const URL_PARAMS_CURRENT_WEATHER= 'current_weather=true';
@@ -37,6 +40,8 @@ const Weather = styled(({className}) => {
   const [currentCity, setCurrentCity] = useState<cityProps>(defaultCity);
   const [searchInput,setSearchInput] = useState<string>('');
   const [searchingCities,setSearchingCities] = useState<cityProps[]>([]);
+  const [message, setMessage] = useState<string>('');
+  const [isVisible,setIsVisble] = useState<boolean>(() => false);
   const [currentWeather, setCurrentWeather] = useState<weatherProps>({
     temperature: 0,
     winddirection: 0,
@@ -75,7 +80,12 @@ const Weather = styled(({className}) => {
   const handleKeyDownSearchInput = (event:any,city:cityProps) =>{
     if(event.key === "Enter")
     {
-      if(!city) return
+      if(!city) {
+        setIsVisble(true);
+        setMessage("City not found!");
+        return
+      }
+      
       setCurrentCity({
         name:city.name,
         country: city.country,
@@ -89,6 +99,11 @@ const Weather = styled(({className}) => {
   const isArrayResponse = (response: any): response is Array<cityProps> => {
     return Array.isArray(response);
   }
+
+  const handleNotificationClose = () => {
+    setMessage('');
+    setIsVisble(false);
+  };
 
   useEffect(()=>{
     (async () => {
@@ -152,7 +167,7 @@ const Weather = styled(({className}) => {
     if(code === '56' || code === '57') return faSnowflake;
     if(code === '66' || code === '67') return faSnowflake;
     if(code === '85' || code === '86') return faSnowflake;
-    if(code === '71' || code === '73' || code === '75' || code =='77') return faSnowflake;
+    if(code === '71' || code === '73' || code === '75' || code ==='77') return faSnowflake;
 
     if(code === '61'|| code === '63' || code === '65') return faCloudRain;
     if(code === '80'|| code === '81' || code === '82') return faCloudRain;
@@ -161,6 +176,12 @@ const Weather = styled(({className}) => {
   }
   return (
     <div className={className}>
+      <CustomNotificationComponent 
+        isVisible={isVisible}
+        message={message}
+        duration={4000}
+        onClose={handleNotificationClose}
+      />
       <div className='container content-wrapper'>
         <div className='title-wrapper'>
           <div className='search-wrapper'>
