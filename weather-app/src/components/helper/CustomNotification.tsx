@@ -52,7 +52,7 @@ const CustomNotification = styled.div`
   top:1em;
   right:1em;
   z-index:999;
-  width:250px;
+  width:15em;
 `;
 
 export default CustomNotificationComponent;

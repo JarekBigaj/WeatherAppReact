@@ -62,17 +62,16 @@ const DetailedWeather = styled(({className}) => {
 
   return (
     <div className={className}>
-      <div className='container is-fullhd columns is-mobile'>
-        <div className='column title-wrapper'>
-          <h1 className='title'>{city}</h1>
-        </div>
-        <div className='column buttons buttons-wrapper'>
+      <div className='container'>
+        <div className='buttons buttons-wrapper'>
           <button className='button is-danger' onClick={handleNavigateBack}>Back</button>
         </div>
-      </div>
-      <div className='container table-wrapper'>
-        <table className='table is-bordered is-striped is-narrow is-fullwidth'>
-          <caption className='subtitle'>Weather for {days} days.</caption>
+        <table>
+          <caption>
+            <div className='text-wrapper'>
+              Weather in {city} for {days} days
+            </div>
+          </caption>
           <thead>
             <tr>
               <th>Data</th>
@@ -84,7 +83,7 @@ const DetailedWeather = styled(({className}) => {
             {weather.map((element) => (
               <tr key={`rows${element.time}`}>
                 {Object.entries(element).map(([key,value])=>{
-                  return <td key={`${key}${value}`}>{value}</td>
+                  return <td key={`${key}${value}`} data-cell={key}>{value}</td>
                 })}
               </tr>
             ))
@@ -95,24 +94,91 @@ const DetailedWeather = styled(({className}) => {
     </div>
   )
 })`
-  padding:1em;
+  padding:0.75em;
 
-  .title-wrapper{
-    padding-left:2em;
-    text-align:left;
+  table{
+    min-width:100%;
+    border-collapse:collapse;
+    background-color:var(--color-container);
+    color:var(--color-text);
+    margin-top:1.5rem;
   }
-  .buttons-wrapper{
-    display:flex;
-    justify-content:right;
-  }
-  caption{
-  }
-  th{
-    background-color:hsla(197, 71%, 73%, 1);
-  }
-  tr {
-    text-align:left;
-  }
+
+  caption,
+  th,
+  td {
+     padding: 1rem;
+   }
+  
+   caption,
+   th {
+     text-align: left;
+     pointer-events:none;
+     text-transform: uppercase;
+   }
+  
+   caption {
+     font-weight: 700;
+     text-align:center;
+     background: hsl(213, 42%, 10%);
+     border: hsl(213, 42%, 10%) solid 1px;
+     border-radius:15px 15px 0 0;
+     font-size: 1.5em;
+     font-weight: 700;
+   }
+  
+   th {
+     background: hsl(213, 42%, 15%);
+     color:var(--color-text);
+   }
+  
+   tr:nth-of-type(2n){
+     background: hsl(0 0% 0% /0.1);
+    
+   }
+   
+  
+   @media (max-width: 650px) {
+     caption{
+      text-align:left;
+      font-size:1em;
+     }
+     
+     th{
+       display:none;
+     }
+     td{
+       display:grid;
+       grid-template-columns: 15ch auto;
+       gap:0.5rem;
+       padding: 0.5rem 1rem;
+     }
+    
+     td:first-child{
+       padding-top:1rem;
+     }
+    
+     td:last-child{
+       padding-bottom:1rem;
+     }
+    
+     td::before{
+       content: attr(data-cell) ": ";
+       font-weight:700;
+       text-transform: capitalize;
+       
+     }
+     .text-wrapper{
+      max-width: calc(100% - 5em);
+     }
+   }
+  
+   .buttons-wrapper{
+     position:absolute;
+     top:0.6em;
+     right:0.75em;
+     z-index:99;
+   }
 
 `
 

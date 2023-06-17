@@ -255,7 +255,7 @@ const Weather = styled(({className}) => {
 
   .container{
     background-color:var(--color-container);
-    width:600px;
+    width:40em;
   }
 
   .content-wrapper{
@@ -277,8 +277,8 @@ const Weather = styled(({className}) => {
     padding-top:0.75em;
     margin-left:0.75em;
     margin-right:0.75em;
-    width:300px;
-    min-width:300px;
+    width:20em;
+    min-width:20em;
   }
 
   .title{
@@ -297,13 +297,13 @@ const Weather = styled(({className}) => {
     position:relative;
     text-align:left;
     background-color:transparent;
-    border: 2px solid  hsla(0, 0%, 100%, 0.2);
+    border: 0.25em solid  hsla(0, 0%, 100%, 0.2);
   }
 
   .weather-currently-text{
     position:absolute;
-    top:-15px;
-    left:15px;
+    top:-0.9em;
+    left:0.9em;
     z-index:99;
   }
 
@@ -315,11 +315,11 @@ const Weather = styled(({className}) => {
   .search-city-results{
     position:absolute;
     text-align:left;
-    top:50px;
+    top:3em;
     list-style-type: none;
     padding-left:0.3em;
     width:100%;
-    max-height: 150px;
+    max-height: 10em;
     color:black;
     background-color: #fff;
     overflow:hidden;
@@ -338,7 +338,7 @@ const Weather = styled(({className}) => {
   }
 
   .weather-currently-wind-wrapper{
-    margin-top:10px;
+    margin-top:0.75em;
     position:relative;
     width:auto;
     background-color: rgba(59, 61, 231, 0.09);
@@ -358,13 +358,15 @@ const Weather = styled(({className}) => {
   }
 
   @media screen and (max-width:600px){
+    font-size:0.75em;
+    
     .container{
       margin: 0 1em 0 1em;
       width:auto;
     } 
     .search-wrapper{
       width: auto;
-      min-width:200px;
+      min-width:10em;
     }
 
     .weather-wrapper{
