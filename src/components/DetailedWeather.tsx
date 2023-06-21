@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { QueryParams, getQueryParams } from '../helper/helperQueryParams';
 import styled from 'styled-components';
+import { I18nContext } from 'react-i18next';
 
 const URL_WEATHER = 'https://api.open-meteo.com/v1/forecast?';
 const URL_PARAM_LATITUDE = `latitude=`;
@@ -13,11 +14,13 @@ const URL_PARAM_TIMEZONE = `&timezone=Europe%2FBerlin`;
 
 interface WeatherProps {
   time: object;
-  temperatureMax : number;
-  windspeed : number;
+  temperatureMax : string;
+  windspeed : string;
 }
 
 const DetailedWeather = styled(({className}) => {
+  const {i18n} = useContext(I18nContext);
+  const {t} = i18n;
   const [weather,setWeather] = useState<WeatherProps[]>([]);
   const location = useLocation();
   const queryParams:QueryParams = getQueryParams(location.search);
@@ -49,8 +52,8 @@ const DetailedWeather = styled(({className}) => {
         const transformedData:WeatherProps[] = temperature_2m_max
           .map((temperatureMax:number, index:number) =>({
             time:time[index],
-            temperatureMax,
-            windspeed:windspeed_10m_max[index]
+            temperatureMax: temperatureMax.toString() + ` ℃`,
+            windspeed: windspeed_10m_max[index].toString()+` km/h`
           }));
 
         setWeather(transformedData);
@@ -64,19 +67,21 @@ const DetailedWeather = styled(({className}) => {
     <div className={className}>
       <div className='container'>
         <div className='buttons buttons-wrapper'>
-          <button className='button is-danger' onClick={handleNavigateBack}>Back</button>
+          <button className='button is-danger' onClick={handleNavigateBack}>{t(`buttons.back`)}</button>
         </div>
         <table>
           <caption>
             <div className='text-wrapper'>
-              Weather in {city} for {days} days
+              {`${t(`city.${city}`)} - 
+              ${t(`table_title.first`)}
+              ${days}${t(`table_title.second`)}`}
             </div>
           </caption>
           <thead>
             <tr>
-              <th>Data</th>
-              <th>Temperature</th>
-              <th>Wind Speed</th>
+              <th>{t(`table_columns_title.data`)}</th>
+              <th>{t(`table_columns_title.temperature`)}</th>
+              <th>{t(`table_columns_title.wind_speed`)}</th>
             </tr>
           </thead>
           <tbody>

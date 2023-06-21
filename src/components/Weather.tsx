@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloudBolt, faCloudRain, faCloudSun, faMagnifyingGlass, faSnowflake, faSun} from '@fortawesome/free-solid-svg-icons'
 import weather_code_file from './weather-code.json'
 import { useNavigate } from 'react-router-dom'
-import NotificationAboutCity from './helper/CustomNotification'
 import CustomNotificationComponent from './helper/CustomNotification'
-import CustomNotification from './helper/CustomNotification'
+import { I18nContext } from 'react-i18next'
+
+
 
 const URL_WEATHER = 'https://api.open-meteo.com/v1/forecast?';
 const URL_PARAMS_CURRENT_WEATHER= 'current_weather=true';
@@ -37,6 +38,7 @@ const defaultCity:cityProps = {
 
 
 const Weather = styled(({className}) => {
+  const {i18n} = useContext(I18nContext);
   const [currentCity, setCurrentCity] = useState<cityProps>(defaultCity);
   const [searchInput,setSearchInput] = useState<string>('');
   const [searchingCities,setSearchingCities] = useState<cityProps[]>([]);
@@ -202,23 +204,24 @@ const Weather = styled(({className}) => {
                 {searchingCities.map((city)=>{
                   const {name,country,longitude,latitude} = city;
                   return <li key={`${longitude}${latitude}`} onClick={() => handleOnClickSearchInput(city)}>
-                    {`${name} : ${country}`}
+                    {`${i18n.t(`city.${name}`, {defaultValue: name})} 
+                    : ${i18n.t(`country.${country}`,{defaultValue:country})}`}
                     </li>
                 })}
               </ul>
             </div>
           </div>
           <div className='title-container'>
-            <h1 className='city-name title is-right'>{name}</h1>
+            <h1 className='city-name title is-right'>{i18n.t(`city.${name}`,{defaultValue: name})}</h1>
           </div>
         </div>
         <div className='weather-wrapper'>
           <div className='container columns is-mobile weather-currently-info-wrapper'>
-            <span className='weather-currently-text'>Weather now</span>
+            <span className='weather-currently-text'>{i18n.t('weather_now')}</span>
             <i className='column'><FontAwesomeIcon icon={weahterIcon(code.toString())} className='icon-weather-status'/></i>
             <div className='currently-weather-status-wrapper column'>
               <h1 className='title'>{temperature}℃</h1>
-              <span>{description}</span>
+              <span>{i18n.t(`weather_code.${code}`)}</span>
             </div>
           </div>
           <div className='container columns is-mobile weather-currently-wind-wrapper'>
@@ -234,13 +237,13 @@ const Weather = styled(({className}) => {
               className='button is-info is-medium is-responsive'
               onClick={() => handleNevigateWeatherForSeveralDays(3,longitude,latitude,name)}
             >
-              Weather for 3 days
+              {i18n.t('days_count.three')}
             </button>
             <button 
               className='button is-info is-medium is-responsive'
               onClick={() => handleNevigateWeatherForSeveralDays(7,longitude,latitude,name)}
             >
-              Weather for 7 days
+              {i18n.t('days_count.seven')}
             </button>
           </div>
         </div>
