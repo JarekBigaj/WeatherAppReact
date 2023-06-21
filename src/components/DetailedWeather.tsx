@@ -100,6 +100,7 @@ const DetailedWeather = styled(({className}) => {
   )
 })`
   padding:0.75em;
+  cursor:default;
 
   table{
     min-width:100%;

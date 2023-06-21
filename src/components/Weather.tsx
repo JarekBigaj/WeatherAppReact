@@ -255,6 +255,7 @@ const Weather = styled(({className}) => {
   width:100%;
   margin-top:5em;
   color: var(--color-text);
+  cursor:default;
 
   .container{
     background-color:var(--color-container);
