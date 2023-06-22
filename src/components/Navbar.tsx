@@ -4,7 +4,7 @@ const Navbar = () => {
   return (
     <div>
         <ul>
-            <li><Link to={'/signin'}>Sign In</Link></li>
+            <li><Link to={'/login'}>SignIn</Link></li>
             <li><Link to={'/signup'}>SignUp</Link></li>
         </ul>
     </div>

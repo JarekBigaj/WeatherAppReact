@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import "/node_modules/flag-icons/css/flag-icons.min.css";
 import Navbar from './components/Navbar';
 import SignUp from './components/SignUp';
+import Login from './components/Login';
 
 
 
@@ -40,6 +41,7 @@ function App() {
           <Route path="/" element={<Weather/>}/>
           <Route path="/detailedweather" element={<DetailedWeather/>}/>
           <Route path='/signup' element={<SignUp/>}/>
+          <Route path='/login' element={<Login/>}/>
         </Routes>
       </div>
     </I18nContext.Provider>
