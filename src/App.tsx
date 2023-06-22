@@ -7,6 +7,10 @@ import { I18nContext} from 'react-i18next';
 import i18n from './i18n';
 import { useEffect, useState } from 'react';
 import "/node_modules/flag-icons/css/flag-icons.min.css";
+import Navbar from './components/Navbar';
+import SignUp from './components/SignUp';
+
+
 
 function App() {
   const [contextValue, setContextValue] = useState({ i18n });
@@ -31,9 +35,11 @@ function App() {
     <I18nContext.Provider value={{i18n}} >
       <div className='app'>
         <LanguageSelectors changeLanguage={changeLanguage}/>
+        <Navbar/>
         <Routes>
           <Route path="/" element={<Weather/>}/>
           <Route path="/detailedweather" element={<DetailedWeather/>}/>
+          <Route path='/signup' element={<SignUp/>}/>
         </Routes>
       </div>
     </I18nContext.Provider>
