@@ -8,11 +8,11 @@ import i18n from './i18n';
 import { useEffect, useState } from 'react';
 import "/node_modules/flag-icons/css/flag-icons.min.css";
 import Navbar from './components/Navbar';
-import SignUp from './components/SignUp';
 import Login from './components/Login';
 import { Account } from './components/Account';
 import { Session } from 'inspector';
 import Status from './components/Status';
+import Register from './components/Register';
 
 
 
@@ -45,7 +45,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Weather/>}/>
             <Route path="/detailedweather" element={<DetailedWeather/>}/>
-            <Route path='/signup' element={<SignUp/>}/>
+            <Route path='/signup' element={<Register/>}/>
             <Route path='/login' element={<Login/>}/> 
           </Routes>
         </main>
