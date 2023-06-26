@@ -8,8 +8,6 @@ import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import UserPool from '../UserPool';
 import CustomNotificationComponent from './helper/CustomNotification';
 
-
-
 const Register = styled(({className}) => {
     const userRef = useRef<HTMLInputElement| null>(null);
     const errRef = useRef<HTMLInputElement | null>(null);
@@ -133,7 +131,6 @@ const Register = styled(({className}) => {
         <input
           type='text'
           id='name'
-          ref={userRef}
           autoComplete='off'
           onChange={(event:any)=>setName(event.target.value)}
           required

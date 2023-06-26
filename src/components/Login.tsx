@@ -1,10 +1,16 @@
-import React, { FormEvent, useState,useContext } from 'react'
+import React, { FormEvent, useState,useContext, useRef, useEffect } from 'react'
 import { AccountContext } from './Account';
 
 
 const Login = () => {
+    const userRef = useRef<HTMLInputElement| null>(null);
+    const errRef = useRef<HTMLInputElement | null>(null);
+
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+
+    const [errMsg, setErrMsg] = useState<string>('');
+    const [success,setSuccess] = useState<boolean>(false);
 
     const {authenticate} = useContext<any>(AccountContext);
     
@@ -14,6 +20,12 @@ const Login = () => {
             .then((data:any) => console.log("Logged In",data))
             .catch((err:any) => console.error("Failed Login",err));
     };
+
+    useEffect(() => {
+      if(userRef.current) userRef.current.focus();
+    }, [])
+    
+
   return (
     <div>
         <form onSubmit={onSubmit}>
@@ -35,4 +47,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Login;
