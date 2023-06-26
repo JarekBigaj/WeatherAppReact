@@ -34,7 +34,7 @@ const CustomNotificationComponent: React.FC<CustomNotificationProps> = ({
   }, [isVisible, duration, onClose]);
 
   return visible ? 
-    <CustomNotification className={notificationClassName}>
+    <CustomNotification className={notificationClassName} aria-live='assertive'>
       <button className="delete" onClick={() => {
         if (onClose) {
           onClose();
@@ -49,10 +49,20 @@ const CustomNotificationComponent: React.FC<CustomNotificationProps> = ({
 
 const CustomNotification = styled.div`
   position:fixed;
-  top:1em;
+  top:3em;
   right:1em;
   z-index:999;
-  width:15em;
+  width:20em;
+  .delete{
+    position:absolute;
+    top:0;
+    background-color:gray;
+    color:black;
+    font-size:0.25em;
+  }
+  .delete:hover{
+    background-color: #666666;
+  }
 `;
 
 export default CustomNotificationComponent;
