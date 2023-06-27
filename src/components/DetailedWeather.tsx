@@ -99,6 +99,9 @@ const DetailedWeather = styled(({className}) => {
     </div>
   )
 })`
+  position:absolute;
+  top:4.5em;
+  width:100%;
   padding:0.75em;
   cursor:default;
 
@@ -145,6 +148,8 @@ const DetailedWeather = styled(({className}) => {
    
   
    @media (max-width: 650px) {
+      width:100%;
+      
      caption{
       text-align:left;
       font-size:1em;

@@ -211,7 +211,7 @@ const Register = styled(({className}) => {
 })`
   position:relative;
   width: 100%;
-  margin-top: 4em;
+  margin-top: 5em;
   margin-left:auto;
   margin-right:auto;
   max-width: 28em;

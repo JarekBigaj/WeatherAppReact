@@ -11,7 +11,7 @@ return (
   );
 })`
   position:absolute;
-  top:0.25em;
+  top:4.25em;
   right:0.25em;
   
   span {

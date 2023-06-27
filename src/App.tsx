@@ -14,16 +14,12 @@ import { Session } from 'inspector';
 import Status from './components/Status';
 import Register from './components/Register';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
+import Layout from './Layout';
 
 
 
 function App() {
   const [contextValue, setContextValue] = useState({ i18n });
-  const [session, setSession] = useState<CognitoUserSession | null>(null);
-
-  const handleSessionChange = (session: CognitoUserSession | null) => {
-    setSession(session);
-  };
 
   const changeLanguage = (language:string) => {
     i18n.changeLanguage(language);
@@ -40,21 +36,21 @@ function App() {
       i18n.off('languageChanged', i18nUpdateHandler);
     };
   }, []);
-  console.log("session from app",session);
+  
+
   return (
     <I18nContext.Provider value={{i18n}} >
       <Account>
-        <main className='app'>
-          <LanguageSelectors changeLanguage={changeLanguage}/>
-          <Navbar/>
-          <Status onSessionChange={handleSessionChange}/>
+        <Status/>
+        <LanguageSelectors changeLanguage={changeLanguage}/>
           <Routes>
-            <Route path="/" element={<Weather/>}/>
-            <Route path="/detailedweather" element={<DetailedWeather/>}/>
-            <Route path='/signup' element={<Register/>}/>
-            <Route path='/login' element={<Login/>}/> 
+            <Route path='/' element={<Layout/>}>
+              <Route path="/" element={<Weather/>}/>
+              <Route path="/detailedweather" element={<DetailedWeather/>}/>
+              <Route path='/signup' element={<Register/>}/>
+              <Route path='/login' element={<Login/>}/> 
+            </Route>
           </Routes>
-        </main>
       </Account>
     </I18nContext.Provider>
   );

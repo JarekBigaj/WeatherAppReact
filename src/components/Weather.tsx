@@ -35,8 +35,6 @@ const defaultCity:cityProps = {
   latitude:52.23
 } 
 
-
-
 const Weather = styled(({className}) => {
   const {i18n} = useContext(I18nContext);
   const [currentCity, setCurrentCity] = useState<cityProps>(defaultCity);

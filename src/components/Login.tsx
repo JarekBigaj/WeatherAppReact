@@ -2,12 +2,13 @@ import React, { FormEvent, useState,useContext, useRef, useEffect } from 'react'
 import { AccountContext } from './Account';
 import styled from 'styled-components';
 import CustomNotificationComponent from './helper/CustomNotification';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const Login = styled(({className}) => {
     const userRef = useRef<HTMLInputElement| null>(null);
     const errRef = useRef<HTMLInputElement | null>(null);
+    const navigate = useNavigate();
 
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -20,13 +21,23 @@ const Login = styled(({className}) => {
     
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      authenticate(email,password)
-          .then((data:any) => console.log("Logged In",data))
-          .catch((err:any) => {
-            setErrMsg(err.message);
-            setIsVisible(true);
-          });
-      setSuccess(true);
+      try{
+          authenticate(email,password)
+            .then((data:any) => {
+              setEmail('');
+              setPassword('');
+              setSuccess(true);
+              navigate('/');
+            })
+            .catch((err:any) => {
+              setErrMsg(err.message);
+              setIsVisible(true);
+            });
+          
+          
+      } catch (err) {
+        console.error(err);
+      }
     };
 
     useEffect(() => {
@@ -82,7 +93,7 @@ const Login = styled(({className}) => {
 })`
 position:relative;
 width: 100%;
-margin-top: 4em;
+margin-top: 5em;
 margin-left:auto;
 margin-right:auto;
 max-width: 28em;
