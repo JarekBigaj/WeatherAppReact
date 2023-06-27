@@ -13,11 +13,17 @@ import { Account } from './components/Account';
 import { Session } from 'inspector';
 import Status from './components/Status';
 import Register from './components/Register';
+import { CognitoUserSession } from 'amazon-cognito-identity-js';
 
 
 
 function App() {
   const [contextValue, setContextValue] = useState({ i18n });
+  const [session, setSession] = useState<CognitoUserSession | null>(null);
+
+  const handleSessionChange = (session: CognitoUserSession | null) => {
+    setSession(session);
+  };
 
   const changeLanguage = (language:string) => {
     i18n.changeLanguage(language);
@@ -34,14 +40,14 @@ function App() {
       i18n.off('languageChanged', i18nUpdateHandler);
     };
   }, []);
-
+  console.log("session from app",session);
   return (
     <I18nContext.Provider value={{i18n}} >
       <Account>
         <main className='app'>
           <LanguageSelectors changeLanguage={changeLanguage}/>
           <Navbar/>
-          <Status/>
+          <Status onSessionChange={handleSessionChange}/>
           <Routes>
             <Route path="/" element={<Weather/>}/>
             <Route path="/detailedweather" element={<DetailedWeather/>}/>

@@ -2,22 +2,31 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AccountContext } from './Account';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
 
-const Status = () => {
+interface StatusProps {
+    onSessionChange: (session: CognitoUserSession | null) => void;
+}
+
+const Status = ({onSessionChange}:StatusProps) => {
     const [status, setStatus] = useState<boolean>(false);
+    const [session, setSession] = useState<CognitoUserSession | null>(null);
 
     const context = useContext(AccountContext);
 
     useEffect(() => {
-        context?.getSession()
-            .then((session: CognitoUserSession) => {
-                console.log("Session: ", session);
-                setStatus(true);
-            });
-      }, []);
-
+       (async () => {
+            try {
+            const sessionData = await context?.getSession();
+                setSession(sessionData? sessionData : null);
+                onSessionChange(sessionData ? sessionData:null);
+            } catch (error) {
+            console.log(error);
+          }
+        })()
+    }, []);
+    
   return (
     <div>
-        {status? "You are logged!" : "Please login"}
+        {session? "You are logged!" : "Please login"}
     </div>
   )
 }

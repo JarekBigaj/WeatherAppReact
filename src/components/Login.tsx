@@ -1,6 +1,8 @@
 import React, { FormEvent, useState,useContext, useRef, useEffect } from 'react'
 import { AccountContext } from './Account';
 import styled from 'styled-components';
+import CustomNotificationComponent from './helper/CustomNotification';
+import { Link } from 'react-router-dom';
 
 
 const Login = styled(({className}) => {
@@ -16,11 +18,15 @@ const Login = styled(({className}) => {
 
     const {authenticate} = useContext<any>(AccountContext);
     
-    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        authenticate(email,password)
-            .then((data:any) => console.log("Logged In",data))
-            .catch((err:any) => console.error("Failed Login",err));
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      authenticate(email,password)
+          .then((data:any) => console.log("Logged In",data))
+          .catch((err:any) => {
+            setErrMsg(err.message);
+            setIsVisible(true);
+          });
+      setSuccess(true);
     };
 
     useEffect(() => {
@@ -32,23 +38,45 @@ const Login = styled(({className}) => {
     },[email,password]);
     
 
+  const handleNotificationClose = () => {
+    setErrMsg('');
+    setIsVisible(false);
+  };
   return (
     <section className={className}>
-        <form onSubmit={onSubmit}>
-            <label htmlFor="email">Email</label>
-            <input
-              type="text"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-            />
-            <button type="submit">Login</button>
+      <CustomNotificationComponent 
+        isVisible={isVisible} 
+        message={errMsg} 
+        duration={6000} 
+        onClose={handleNotificationClose}/>
+      <h1 className='title'>Sign In</h1>
+      <form onSubmit={handleSubmit}>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="text"
+            id="email"
+            ref={userRef}
+            autoComplete='off'
+            required
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id='password'
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            required
+          />
+          <button type="submit">Login</button>
         </form>
+        <p>
+          Need a account? <br/>
+          <span className='line'>
+            <Link to={'/signup'}>Sign Up</Link>
+          </span>
+        </p>
     </section>
   )
 })`
