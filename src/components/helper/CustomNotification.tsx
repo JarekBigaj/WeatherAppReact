@@ -4,6 +4,7 @@ import styled from 'styled-components';
 interface CustomNotificationProps {
   message: string;
   duration?: number;
+  success?: boolean;
   onClose?: () => void;
   isVisible: boolean;
 }
@@ -11,12 +12,14 @@ interface CustomNotificationProps {
 const CustomNotificationComponent: React.FC<CustomNotificationProps> = ({
   message,
   duration = 3000,
+  success,
   onClose,
   isVisible
 }) => {
   const [visible, setVisible] = useState(false);
 
   const notificationClassName = useMemo(() => {
+    if(success && visible){ return 'notification is-success is-light'};
     return visible ? 'notification is-danger is-light' : '';
   }, [visible]);
 

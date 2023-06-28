@@ -7,13 +7,10 @@ import { I18nContext} from 'react-i18next';
 import i18n from './i18n';
 import { useEffect, useState } from 'react';
 import "/node_modules/flag-icons/css/flag-icons.min.css";
-import Navbar from './components/Navbar';
 import Login from './components/Login';
 import { Account } from './components/Account';
-import { Session } from 'inspector';
 import Status from './components/Status';
 import Register from './components/Register';
-import { CognitoUserSession } from 'amazon-cognito-identity-js';
 import Layout from './Layout';
 
 

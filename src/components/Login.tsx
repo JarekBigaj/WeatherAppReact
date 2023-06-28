@@ -31,6 +31,7 @@ const Login = styled(({className}) => {
             })
             .catch((err:any) => {
               setErrMsg(err.message);
+              setSuccess(false);
               setIsVisible(true);
             });
           
@@ -46,6 +47,7 @@ const Login = styled(({className}) => {
 
     useEffect(()=>{
       setErrMsg('');
+      if(!success)setIsVisible(false);
     },[email,password]);
     
 
@@ -57,7 +59,7 @@ const Login = styled(({className}) => {
     <section className={className}>
       <CustomNotificationComponent 
         isVisible={isVisible} 
-        message={errMsg} 
+        message={errMsg}
         duration={6000} 
         onClose={handleNotificationClose}/>
       <h1 className='title'>Sign In</h1>
