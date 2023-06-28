@@ -13,7 +13,7 @@ const Navbar = styled(({className}) => {
   console.log({auth});
   return (
     <div className={className}>
-       <Link className="site-title navbar-item" to="/">Weather App</Link>
+       <Link className="site-title" to="/">Weather App</Link>
         <ul  className={`navbar-list`}>
           <CustomLink to={"/"} >Home</CustomLink>
           {!auth?
@@ -49,6 +49,12 @@ const Navbar = styled(({className}) => {
 .site-title{
     font-size: 2.5em;
     padding: .45em;
+    color: inherit; 
+    text-decoration: none;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    padding: .25rem;
     text-shadow: 
     0 0 0.125em hsl(0 0% 100% / 0.3),
     0 0 0.45em currentColor;

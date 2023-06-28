@@ -202,7 +202,7 @@ const Weather = styled(({className}) => {
                 {searchingCities.map((city)=>{
                   const {name,country,longitude,latitude} = city;
                   return <li key={`${longitude}${latitude}`} onClick={() => handleOnClickSearchInput(city)}>
-                    {`${i18n.t(`city.${name}`, {defaultValue: name})} 
+                    {`${country==='Poland' ? i18n.t(`city.${name}`, {defaultValue: name}): name} 
                     : ${i18n.t(`country.${country}`,{defaultValue:country})}`}
                     </li>
                 })}

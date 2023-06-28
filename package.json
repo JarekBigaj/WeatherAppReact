@@ -55,5 +55,9 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.26"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/JarekBigaj/WeatherAppReact.git",
+  "author": "Jarek Bigaj <j.bigaj@interia.pl>",
+  "license": "MIT"
 }
