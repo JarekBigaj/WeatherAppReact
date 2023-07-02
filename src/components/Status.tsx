@@ -11,6 +11,8 @@ const Status = styled(({className}) => {
     const context = useContext(AccountContext);
     const auth = context?.auth;
     console.log("auth from status before use effect:",{auth})
+    console.log("session from status",{session})
+
     useEffect(() => {
        (async () => {
             try {
@@ -40,7 +42,7 @@ const Status = styled(({className}) => {
         success={session?session:false}
         duration={6000} 
         onClose={handleNotificationClose}/>
-        {session? "You are logged!" : "Please login"}
+        {session? <span key={'logged'}>You are logged!</span> : <span key={'not_logged'}>Please login</span>}
     </div>
   )
 })`

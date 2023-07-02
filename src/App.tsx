@@ -12,6 +12,7 @@ import { Account } from './components/Account';
 import Status from './components/Status';
 import Register from './components/Register';
 import Layout from './Layout';
+import RequireAuth from './components/RequireAuth';
 
 
 

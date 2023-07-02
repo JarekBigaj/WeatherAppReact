@@ -1,23 +1,25 @@
 import React, { FormEvent, useState,useContext, useRef, useEffect } from 'react'
-import { AccountContext } from './Account';
+import { Account, AccountContext } from './Account';
 import styled from 'styled-components';
 import CustomNotificationComponent from './helper/CustomNotification';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 
 const Login = styled(({className}) => {
     const userRef = useRef<HTMLInputElement| null>(null);
     const errRef = useRef<HTMLInputElement | null>(null);
+
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
 
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
     const [errMsg, setErrMsg] = useState<string>('');
     const [isVisible,setIsVisible] = useState<boolean>(false)
-    const [success,setSuccess] = useState<boolean>(false);
 
-    const {authenticate} = useContext<any>(AccountContext);
+    const {authenticate,setAuth,auth} = useContext<any>(AccountContext);
     
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -26,15 +28,13 @@ const Login = styled(({className}) => {
             .then((data:any) => {
               setEmail('');
               setPassword('');
-              setSuccess(true);
-              navigate('/');
+              setAuth(data);
+              navigate(from,{replace:true});
             })
             .catch((err:any) => {
               setErrMsg(err.message);
-              setSuccess(false);
               setIsVisible(true);
             });
-          
           
       } catch (err) {
         console.error(err);
@@ -47,15 +47,21 @@ const Login = styled(({className}) => {
 
     useEffect(()=>{
       setErrMsg('');
-      if(!success)setIsVisible(false);
+      setIsVisible(false);
     },[email,password]);
     
-
   const handleNotificationClose = () => {
     setErrMsg('');
     setIsVisible(false);
   };
   return (
+    auth 
+      ? (
+      <section className={className}>
+        <h1>You are already Logged!</h1>
+        <Link to={'/'}>Back to Home Page</Link>
+      </section>
+    ) : ( 
     <section className={className}>
       <CustomNotificationComponent 
         isVisible={isVisible} 
@@ -90,7 +96,7 @@ const Login = styled(({className}) => {
             <Link to={'/signup'}>Sign Up</Link>
           </span>
         </p>
-    </section>
+    </section>)
   )
 })`
 position:relative;
