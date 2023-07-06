@@ -20,7 +20,6 @@ const Login = styled(({className}) => {
     const [isVisible,setIsVisible] = useState<boolean>(false)
 
     const {authenticate,setAuth,auth} = useContext<any>(AccountContext);
-    
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       try{

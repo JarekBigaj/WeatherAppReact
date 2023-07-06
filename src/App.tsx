@@ -34,7 +34,7 @@ function App() {
       i18n.off('languageChanged', i18nUpdateHandler);
     };
   }, []);
-  
+  console.log({localStorage});
 
   return (
     <I18nContext.Provider value={{i18n}} >
