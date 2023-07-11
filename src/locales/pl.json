@@ -127,6 +127,9 @@
         "email_note": "Wprowadź prawidłowy adres e-mail \nw formacie name@example.com.",
         "name": "Imię",
         "confirm_password": "Potwierdź hasło",
-        "name_note": "Wprowadź poprawną nazwę. \nMiędzy 4 a 24 znakami. \nPowinna zaczynać się wielką literą."
+        "name_note": "Wprowadź poprawną nazwę. \nMiędzy 4 a 24 znakami. \nPowinna zaczynać się wielką literą.",
+        "password_note": "Od 8 do 24 znaków. \nMusi zawierać wielkie i małe litery, \ncyfrę i znak specjalny.\nDozwolony znak specjalny :",
+        "match_password": "Musi być zgodne z hasłem.",
+        "registration_question": "Jesteś już zarejestrowany?"
     }
 }

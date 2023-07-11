@@ -176,10 +176,7 @@ const Register = styled(({className}) => {
             onBlur={() => setPasswordFocus(false)}/>
           <p id='passwordnote' className={passwordFocus && !validPassword ? "instructions" : "offscreen"}>
             <FontAwesomeIcon icon={faInfoCircle}/>
-            8 to 24 characters.<br/>
-            Must include uppercase and lowercase letters, a number <br/>
-            and a spacial character.<br/>
-            Allowed special character : 
+            {i18n.t(`text.password_note`)} 
             <span aria-label="at symbol">@</span><span aria-label="exclamation mark">!</span>
             <span aria-label="dollar sign">$</span><span aria-label="percent">%</span>
             <span aria-label="hashtag">#</span>
@@ -205,16 +202,16 @@ const Register = styled(({className}) => {
             onBlur={() => setMatchPasswordFocus(false)}/>
           <p id='confirmnote' className={matchPasswordFocus && !validMatchPassword ? "instructions" : "offscreen"}>
             <FontAwesomeIcon icon={faInfoCircle}/>
-            Must match the password field.
+            {i18n.t(`text.match_password`)}
           </p>
           <button disabled={!validEmail||!validName||!validPassword||!validMatchPassword ? true:false}>
-            Sign Up
+            {i18n.t(`text.signup`)}
           </button>
         </form>
         <p>
-          Already registered? <br/>
+          {i18n.t(`text.registration_question`)} <br/>
           <span className='line'>
-            <Link to={'/login'}>Sign In</Link>
+            <Link to={'/login'}>{i18n.t(`text.signin`)}</Link>
           </span>
         </p>
       </section>
