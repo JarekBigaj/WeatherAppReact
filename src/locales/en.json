@@ -112,6 +112,22 @@
         "data":"data",
         "temperature":"temperature",
         "wind_speed":"wind speed"
+    },
+    "text":{
+        "signin":"Sign In",
+        "signup": "Sign Up",
+        "email": "Email",
+        "password" : "Password",
+        "login": "Login",
+        "question_register": "Need a account?",
+        "logged_information": "You are already Logged!",
+        "back_to_home": "Back to Home Page",
+        "success": "Success",
+        "register": "Register",
+        "email_note": "Please enter a valid email address\nin the format name@example.com.",
+        "name": "Name",
+        "confirm_password": "Confirm Password",
+        "name_note": "Please enter a valid name.\nBetween 4 and 24 characters.\nShould start with uppercase letter."
     }
 
 }

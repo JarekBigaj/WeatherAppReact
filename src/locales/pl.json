@@ -112,5 +112,21 @@
         "data":"data",
         "temperature":"temperatura",
         "wind_speed":"prędkość wiatru"
+    },
+    "text":{
+        "signin":"Zaloguj się",
+        "signup": "Zarejestruj się",
+        "email": "Email",
+        "password" : "Hasło",
+        "login": "Logowanie",
+        "question_register": "Potrzebujesz konta?",
+        "logged_information": "Już jesteś zalogowany!",
+        "back_to_home": "Powrót do strony głównej",
+        "success": "Sukces",
+        "register": "Rejestracja",
+        "email_note": "Wprowadź prawidłowy adres e-mail \nw formacie name@example.com.",
+        "name": "Imię",
+        "confirm_password": "Potwierdź hasło",
+        "name_note": "Wprowadź poprawną nazwę. \nMiędzy 4 a 24 znakami. \nPowinna zaczynać się wielką literą."
     }
 }
