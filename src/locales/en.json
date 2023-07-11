@@ -113,6 +113,10 @@
         "temperature":"temperature",
         "wind_speed":"wind speed"
     },
+    "nav":{
+        "home" : "Home",
+        "logout": "Logout"
+    },
     "text":{
         "signin":"Sign In",
         "signup": "Sign Up",
