@@ -117,6 +117,10 @@
         "home" : "Home",
         "logout": "Logout"
     },
+    "message":{
+        "status": "You are logged!",
+        "b_status": "Please login"
+    },
     "text":{
         "signin":"Sign In",
         "signup": "Sign Up",

@@ -117,6 +117,10 @@
         "home" : "Strona Główna",
         "logout": "Wyloguj"
     },
+    "message":{
+        "status": "Jesteś zalogowany!",
+        "b_status": "Proszę się zalogować"
+    },
     "text":{
         "signin":"Zaloguj się",
         "signup": "Zarejestruj się",

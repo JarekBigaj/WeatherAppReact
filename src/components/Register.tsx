@@ -8,9 +8,12 @@ import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import UserPool from '../UserPool';
 import CustomNotificationComponent from './helper/CustomNotification';
 import { I18nContext } from 'react-i18next';
+import { AccountContext } from './Account';
 
 const Register = styled(({className}) => {
   const {i18n} = useContext(I18nContext);
+  const context = useContext(AccountContext);
+  const auth = context?.auth;
     const userRef = useRef<HTMLInputElement| null>(null);
     const errRef = useRef<HTMLInputElement | null>(null);
 
@@ -98,6 +101,13 @@ const Register = styled(({className}) => {
             </p>
         </section>
       ):(
+        auth 
+      ? (
+      <section className={className}>
+        <h1>{i18n.t(`text.logged_information`)}</h1>
+        <Link to={'/'}>{i18n.t(`text.back_to_home`)}</Link>
+      </section>
+      ) : ( 
       <section className={className}>
         <CustomNotificationComponent 
           isVisible={isVisible}
@@ -214,7 +224,7 @@ const Register = styled(({className}) => {
             <Link to={'/login'}>{i18n.t(`text.signin`)}</Link>
           </span>
         </p>
-      </section>
+      </section>)
     )}
     </>
   )
