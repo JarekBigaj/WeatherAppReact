@@ -112,5 +112,32 @@
         "data":"data",
         "temperature":"temperatura",
         "wind_speed":"prędkość wiatru"
+    },
+    "nav":{
+        "home" : "Strona Główna",
+        "logout": "Wyloguj"
+    },
+    "message":{
+        "status": "Jesteś zalogowany!",
+        "b_status": "Proszę się zalogować"
+    },
+    "text":{
+        "signin":"Zaloguj się",
+        "signup": "Zarejestruj się",
+        "email": "Email",
+        "password" : "Hasło",
+        "login": "Logowanie",
+        "question_register": "Potrzebujesz konta?",
+        "logged_information": "Już jesteś zalogowany!",
+        "back_to_home": "Powrót do strony głównej",
+        "success": "Sukces",
+        "register": "Rejestracja",
+        "email_note": "Wprowadź prawidłowy adres e-mail \nw formacie name@example.com.",
+        "name": "Imię",
+        "confirm_password": "Potwierdź hasło",
+        "name_note": "Wprowadź poprawną nazwę. \nMiędzy 4 a 24 znakami. \nPowinna zaczynać się wielką literą.",
+        "password_note": "Od 8 do 24 znaków. \nMusi zawierać wielkie i małe litery, \ncyfrę i znak specjalny.\nDozwolony znak specjalny :",
+        "match_password": "Musi być zgodne z hasłem.",
+        "registration_question": "Jesteś już zarejestrowany?"
     }
 }

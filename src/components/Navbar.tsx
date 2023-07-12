@@ -2,8 +2,10 @@ import React, { useContext } from 'react'
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 import styled from 'styled-components'
 import { AccountContext } from './Account';
+import { I18nContext } from 'react-i18next';
 
 const Navbar = styled(({className}) => {
+  const {i18n} = useContext(I18nContext)
   const context = useContext(AccountContext);
   const auth = context?.auth;
   const logout = () =>{
@@ -15,15 +17,15 @@ const Navbar = styled(({className}) => {
     <div className={className}>
        <Link className="site-title" to="/">Weather App</Link>
         <ul  className={`navbar-list`}>
-          <CustomLink to={"/"} >Home</CustomLink>
+          <CustomLink to={"/"} >{i18n.t(`nav.home`)}</CustomLink>
           {!auth?
             <>
-              <CustomLink to={"/signup"} >Sign Up</CustomLink>
-              <CustomLink to={"/login"} >Sign In</CustomLink>
+              <CustomLink to={"/signup"} >{i18n.t(`text.signup`)}</CustomLink>
+              <CustomLink to={"/login"} >{i18n.t(`text.signin`)}</CustomLink>
             </>
             :
             <>
-              <CustomLink to={"/login"} onClick={()=>context?.handleLogout()}>Logout</CustomLink>
+              <CustomLink to={"/login"} onClick={()=>context?.handleLogout()}>{i18n.t(`nav.logout`)}</CustomLink>
             </>
           }
           

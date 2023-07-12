@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useRef, useState } from 'react';
+import React, { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,8 +7,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import UserPool from '../UserPool';
 import CustomNotificationComponent from './helper/CustomNotification';
+import { I18nContext } from 'react-i18next';
+import { AccountContext } from './Account';
 
 const Register = styled(({className}) => {
+  const {i18n} = useContext(I18nContext);
+  const context = useContext(AccountContext);
+  const auth = context?.auth;
     const userRef = useRef<HTMLInputElement| null>(null);
     const errRef = useRef<HTMLInputElement | null>(null);
 
@@ -89,13 +94,20 @@ const Register = styled(({className}) => {
     <>
       {success ? (
         <section className={className}>
-            <h1 className='title'>Success</h1>
+            <h1 className='title'>{i18n.t(`text.success`)}</h1>
             <br/>
             <p>
-                <Link to={'/login'}>Sign In!</Link>
+                <Link to={'/login'}>{i18n.t(`text.signin`)}!</Link>
             </p>
         </section>
       ):(
+        auth 
+      ? (
+      <section className={className}>
+        <h1>{i18n.t(`text.logged_information`)}</h1>
+        <Link to={'/'}>{i18n.t(`text.back_to_home`)}</Link>
+      </section>
+      ) : ( 
       <section className={className}>
         <CustomNotificationComponent 
           isVisible={isVisible}
@@ -103,10 +115,10 @@ const Register = styled(({className}) => {
           duration={6000}
           onClose={handleNotificationClose}
         />
-        <h1 className='title'>Register</h1>
+        <h1 className='title'>{i18n.t(`text.register`)}</h1>
         <form onSubmit={handleSubmit}>
           <label htmlFor='email'>
-            Email:
+            {i18n.t(`text.email`)}:
             <span className={validEmail? "valid":"hide"}>
               <FontAwesomeIcon icon={faCheck}/>
             </span>
@@ -127,12 +139,11 @@ const Register = styled(({className}) => {
             onBlur={() => setEmailFocus(false)}/>
           <p id='emailnote' className={emailFocus && email && !validEmail ? "instructions" : "offscreen"}>
             <FontAwesomeIcon icon={faInfoCircle}/>
-            Please enter a valid email address<br/>
-            in the format name@example.com.
+            {i18n.t(`text.email_note`)}
           </p>
 
           <label htmlFor='name'>
-            Name:
+            {i18n.t(`text.name`)}:
             <span className={validName? "valid":"hide"}>
               <FontAwesomeIcon icon={faCheck}/>
             </span>
@@ -152,13 +163,11 @@ const Register = styled(({className}) => {
             onBlur={() => setNameFocus(false)}/>
           <p id='namenote' className={nameFocus && name && !validName ? "instructions" : "offscreen"}>
             <FontAwesomeIcon icon={faInfoCircle}/>
-            Please enter a valid name.<br/>
-            Between 4 and 24 characters.<br/>
-            Should start with uppercase letter.
+            {i18n.t(`text.name_note`)}
           </p>
 
           <label htmlFor='password'>
-            Password:
+            {i18n.t(`text.password`)}:
             <span className={validPassword? "valid":"hide"}>
               <FontAwesomeIcon icon={faCheck}/>
             </span>
@@ -177,17 +186,14 @@ const Register = styled(({className}) => {
             onBlur={() => setPasswordFocus(false)}/>
           <p id='passwordnote' className={passwordFocus && !validPassword ? "instructions" : "offscreen"}>
             <FontAwesomeIcon icon={faInfoCircle}/>
-            8 to 24 characters.<br/>
-            Must include uppercase and lowercase letters, a number <br/>
-            and a spacial character.<br/>
-            Allowed special character : 
+            {i18n.t(`text.password_note`)} 
             <span aria-label="at symbol">@</span><span aria-label="exclamation mark">!</span>
             <span aria-label="dollar sign">$</span><span aria-label="percent">%</span>
             <span aria-label="hashtag">#</span>
           </p>
 
           <label htmlFor='confirm_password'>
-            Confirm Password:
+            {i18n.t(`text.confirm_password`)}:
             <span className={validMatchPassword && matchPassword? "valid":"hide"}>
               <FontAwesomeIcon icon={faCheck}/>
             </span>
@@ -206,19 +212,19 @@ const Register = styled(({className}) => {
             onBlur={() => setMatchPasswordFocus(false)}/>
           <p id='confirmnote' className={matchPasswordFocus && !validMatchPassword ? "instructions" : "offscreen"}>
             <FontAwesomeIcon icon={faInfoCircle}/>
-            Must match the password field.
+            {i18n.t(`text.match_password`)}
           </p>
           <button disabled={!validEmail||!validName||!validPassword||!validMatchPassword ? true:false}>
-            Sign Up
+            {i18n.t(`text.signup`)}
           </button>
         </form>
         <p>
-          Already registered? <br/>
+          {i18n.t(`text.registration_question`)} <br/>
           <span className='line'>
-            <Link to={'/login'}>Sign In</Link>
+            <Link to={'/login'}>{i18n.t(`text.signin`)}</Link>
           </span>
         </p>
-      </section>
+      </section>)
     )}
     </>
   )
@@ -236,7 +242,7 @@ const Register = styled(({className}) => {
   padding: 1.5rem;
   background-color: rgba(0,0,0,0.35);
   color:white;
-
+  white-space: pre-line;
 
   .title{
     color:white;

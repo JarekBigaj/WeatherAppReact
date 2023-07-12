@@ -3,9 +3,11 @@ import { Account, AccountContext } from './Account';
 import styled from 'styled-components';
 import CustomNotificationComponent from './helper/CustomNotification';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { I18nContext } from 'react-i18next';
 
 
 const Login = styled(({className}) => {
+    const {i18n} = useContext(I18nContext);
     const userRef = useRef<HTMLInputElement| null>(null);
     const errRef = useRef<HTMLInputElement | null>(null);
 
@@ -57,8 +59,8 @@ const Login = styled(({className}) => {
     auth 
       ? (
       <section className={className}>
-        <h1>You are already Logged!</h1>
-        <Link to={'/'}>Back to Home Page</Link>
+        <h1>{i18n.t(`text.logged_information`)}</h1>
+        <Link to={'/'}>{i18n.t(`text.back_to_home`)}</Link>
       </section>
     ) : ( 
     <section className={className}>
@@ -67,9 +69,9 @@ const Login = styled(({className}) => {
         message={errMsg}
         duration={6000} 
         onClose={handleNotificationClose}/>
-      <h1 className='title'>Sign In</h1>
+      <h1 className='title'>{i18n.t(`text.signin`)}</h1>
       <form onSubmit={handleSubmit}>
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">{i18n.t(`text.email`)}:</label>
           <input
             type="text"
             id="email"
@@ -79,7 +81,7 @@ const Login = styled(({className}) => {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">{i18n.t(`text.password`)}:</label>
           <input
             type="password"
             id='password'
@@ -87,12 +89,12 @@ const Login = styled(({className}) => {
             onChange={(event) => setPassword(event.target.value)}
             required
           />
-          <button type="submit">Login</button>
+          <button type="submit">{i18n.t(`text.login`)}</button>
         </form>
         <p>
-          Need a account? <br/>
+          {i18n.t(`text.question_register`)} <br/>
           <span className='line'>
-            <Link to={'/signup'}>Sign Up</Link>
+            <Link to={'/signup'}>{i18n.t(`text.signup`)}</Link>
           </span>
         </p>
     </section>)
