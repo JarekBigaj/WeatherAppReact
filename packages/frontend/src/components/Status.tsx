@@ -10,7 +10,7 @@ const Status = styled(({className}) => {
     const [session, setSession] = useState<boolean | undefined>(false);
     const [isVisible,setIsVisible] = useState<boolean>(false);
 
-    const context = useContext(AccountContext);
+    const context = useContext<any>(AccountContext);
     const auth = context?.auth;  
 
     useEffect(() => {
@@ -20,9 +20,7 @@ const Status = styled(({className}) => {
               const sessionIsValid = sessionData?.isValid();
               setSession(sessionIsValid);
               if(!auth && sessionIsValid) {
-                const accessToken = sessionData?.getAccessToken();
-                const jwtToken = accessToken?.getJwtToken();
-                context?.setAuth(jwtToken||'');
+                context?.setAuth(sessionData||'');
               } else{
                 setIsVisible(true);
               }
